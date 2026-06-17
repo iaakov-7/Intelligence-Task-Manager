@@ -37,11 +37,11 @@ class DB_connection:
                        title VARCHAR(50) NOT NULL,
                        description TEXT NOT NULL,
                        location VARCHAR(50) NOT NULL,
-                       difficulty INT NOT NULL,
-                       importance INT NOT NULL,
+                       difficulty INT NOT NULL CHECK (difficulty BETWEEN 1 AND 10) ,
+                       importance INT NOT NULL CHECK (importance BETWEEN 1 AND 10),
                        status VARCHAR(50) DEFAULT 'NEW' NOT NULL,
                        risk_level VARCHAR(50) NOT NULL,
-                       assigned_agent_id INT NULL
+                       assigned_agent_id INT DEFAULT NULL
                        )""")
         cursor.close()
     
