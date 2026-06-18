@@ -102,7 +102,7 @@ get_top_agent() / The agent with the highest completed_missions
 8. Only a task with the status ASSIGNED can be started. After: status=IN_PROGRESS.
 9. Only a task with the status IN_PROGRESS can be finished and changed to failed or completed.
 10. Only a task with the status NEW or ASSIGNED can be canceled — otherwise an error.
-
+ 
 ## Running instructions
 - docker run -d --name intelligence-mysql -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=Intelligence_db -p 3306:3306 mysql:8.0 
 
