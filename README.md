@@ -10,8 +10,19 @@ The system has all the necessary actions such as adding a new agent or updating 
 intelligence-task-manager/
 ├── database/
 │   ├── db_connection.py
+|   |── db_exceptions.py
 │   ├── agent_db.py
 │   └── mission_db.py
+├── routes/
+│   ├── agent_routes.py
+|   |── mission_routes.py
+│   └── report_routes.py
+├── utils/
+│   └── models.py
+|── logs/
+|   └── logger_config.py                 
+│   └── app.log 
+├── main.py  
 ├── README.md
 ├── requirements.txt
 └── .gitignore
@@ -93,5 +104,9 @@ get_top_agent() / The agent with the highest completed_missions
 10. Only a task with the status NEW or ASSIGNED can be canceled — otherwise an error.
 
 ## Running instructions
-docker run -d --name intelligence-mysql -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=Intelligence_db -p 3306:3306 mysql:8.0
+- docker run -d --name intelligence-mysql -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=Intelligence_db -p 3306:3306 mysql:8.0 
+
+- pip install requirements.txt
+
+- uvicorn main:app
   

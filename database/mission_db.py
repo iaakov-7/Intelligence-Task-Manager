@@ -85,7 +85,7 @@ class MissionDB:
             if status_mission != "IN_PROGRESS":
                 raise MissionStatusError
         elif status == "CANCELLED": 
-            if status_mission != "NEW" or "ASSIGNED":
+            if status_mission != "NEW" and status_mission != "ASSIGNED":
                 raise MissionStatusError
         cursor.execute("UPDATE missions SET status=%s WHERE id=%s",(status,id))  
         conn.commit()
@@ -122,15 +122,15 @@ class MissionDB:
     def count_open_missions(self):
         conn = self.db.get_connection()
         cursor = conn.cursor(dictionary=True)        	
-        cursor.execute("""SELECT COUNT(*) AS total_open_missions FROM missions WHERE status="IN_PROGRES" OR status="ASSIGNED" """)
-        count = cursor.fetchall()
+        cursor.execute("""SELECT COUNT(*) AS total_open_missions FROM missions WHERE status="IN_PROGRESS" OR status="ASSIGNED" """)
+        count = cursor.fetchone()
         cursor.close()
         return count  
 
     def count_critical_missions(self):
         conn = self.db.get_connection()
         cursor = conn.cursor(dictionary=True)        	
-        cursor.execute("SELECT  COUNT(*) AS total_critical_missions FROM missions WHERE risl_level='CRITICAL'")
+        cursor.execute("SELECT  COUNT(*) AS total_critical_missions FROM missions WHERE risk_level='CRITICAL'")
         count = cursor.fetchone()
         cursor.close()
         return count 

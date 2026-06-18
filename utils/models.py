@@ -18,7 +18,8 @@ class Mission(BaseModel):
     location:str
     difficulty:int
     importance:int
-    
+
+
 
 def check_int(id):
     if not isinstance(id,int):
