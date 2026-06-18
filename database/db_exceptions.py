@@ -1,5 +1,3 @@
-class IdCannotChengedError(Exception):
-    pass
 
 class AgentNotActiveError(Exception):
     pass

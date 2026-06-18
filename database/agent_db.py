@@ -1,5 +1,5 @@
 from database.db_connection import db
-from database.db_exceptions import IdCannotChengedError
+
 
 class AgentDB:
     def __init__(self):
@@ -37,7 +37,7 @@ class AgentDB:
     
     def update_agent(self,id:int, data:dict):
         if "id" in data:
-            raise IdCannotChengedError
+            return "Error cannot change id"
         conn = self.db.get_connection()
         cursor = conn.cursor()
         set_columns = [f"{key}=%s" for key in data.keys()]
