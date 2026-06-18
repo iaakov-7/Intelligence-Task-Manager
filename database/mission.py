@@ -144,8 +144,8 @@ class MissionDB:
         return count 
 
 db_mission = MissionDB()
-db.create_database()
 
-print(db_mission.get_top_agent())
+
+
 
 

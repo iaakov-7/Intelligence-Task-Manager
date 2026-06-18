@@ -1,5 +1,5 @@
-from db_connection import db
-from db_exceptions import IdCannotChengedError
+from database.db_connection import db
+from database.db_exceptions import IdCannotChengedError
 
 class AgentDB:
     def __init__(self):
