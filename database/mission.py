@@ -1,6 +1,6 @@
-from db_connection import db
-from agent_db import db_agent
-from db_exceptions import AgentNotActiveError,AgentCannotHaveThreeOpentasksError,MissionOnlyForCommanderError,MissionStatusError
+from database.db_connection import db
+from database.agent_db import db_agent
+from database.db_exceptions import AgentNotActiveError,AgentCannotHaveThreeOpentasksError,MissionOnlyForCommanderError,MissionStatusError
 
 class MissionDB:
     def __init__(self):
@@ -78,7 +78,7 @@ class MissionDB:
         cursor = conn.cursor()
         mission = self.get_mission_by_id(id)
         status_mission = mission["status"]
-        if status == "IN_PROGRES":
+        if status == "IN_PROGRESS":
             if status_mission != "ASSIGNED":
                 raise MissionStatusError
         elif status == "COMPLETED" or status == "FAILED":
