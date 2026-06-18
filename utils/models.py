@@ -9,8 +9,16 @@ class Agent(BaseModel):
 class AgentUpdate(BaseModel):
     name:str | None = None
     specialty:str | None = None
-    agent_rank:str| None = None   
+    agent_rank:str| None = None  
 
+
+class Mission(BaseModel):
+    title:str
+    description:str
+    location:str
+    difficulty:int
+    importance:int
+    
 
 def check_int(id):
     if not isinstance(id,int):
