@@ -1,5 +1,5 @@
 from fastapi import APIRouter,HTTPException
-from database.mission import db_mission
+from database.mission_db import db_mission
 from database.agent_db import db_agent
 import database.db_exceptions
 from utils.models import Mission, check_int
@@ -51,12 +51,58 @@ def assign_mission(id:int,agent_id:int):
     return {"Message":assigned}
 
 @router.put("/{id}/start")
-def start_mission(id:int):
+def start_mission(id:int,status:str):
     check_int(id)
     if not db_mission.get_mission_by_id(id):
         raise HTTPException(404,f"Mission {id} not found")
+    if status.upper() != "IN_PROGRESS":
+        raise HTTPException(400,"Status must be IN_PROGRESS")
     try:
         updated = db_mission.update_mission_status(id,"IN_PROGRESS")
     except database.db_exceptions.MissionStatusError:
-        raise HTTPException(400,"Status must be assigned")    
+        raise HTTPException(400,"Mission must be ASSIGNED before starting")    
+    return {"Message":updated}
+
+@router.put("/{id}/complete")
+def start_mission(id:int,status:str):
+    check_int(id)
+    mission = db_mission.get_mission_by_id(id)
+    if not mission:
+        raise HTTPException(404,f"Mission {id} not found")
+    if status.upper() != "COMPLETED":
+        raise HTTPException(400,"Status must be COMPLETED")
+    try:
+        updated = db_mission.update_mission_status(id,"COMPLETED")
+    except database.db_exceptions.MissionStatusError:
+        raise HTTPException(400,"Mission must be IN_PROGRESS before completed")
+    db_agent.increment_completed(mission["assigned_agent_id"])   
+    return {"Message":updated}
+
+@router.put("/{id}/fail")
+def start_mission(id:int,status:str):
+    check_int(id)
+    mission = db_mission.get_mission_by_id(id)
+    if not mission:
+        raise HTTPException(404,f"Mission {id} not found")
+    if status.upper() != "FAILED":
+        raise HTTPException(400,"Status must be FAILED")
+    try:
+        updated = db_mission.update_mission_status(id,"FAILED")
+    except database.db_exceptions.MissionStatusError:
+        raise HTTPException(400,"Mission must be IN_PROGRESS before failed")
+    db_agent.increment_failed(mission["assigned_agent_id"])   
+    return {"Message":updated}
+
+@router.put("/{id}/cancel")
+def start_mission(id:int,status:str):
+    check_int(id)
+    mission = db_mission.get_mission_by_id(id)
+    if not mission:
+        raise HTTPException(404,f"Mission {id} not found")
+    if status.upper() != "CANCELLED":
+        raise HTTPException(400,"Status must be CANCELLED")
+    try:
+        updated = db_mission.update_mission_status(id,"CANCELLED")
+    except database.db_exceptions.MissionStatusError:
+        raise HTTPException(400,"Mission must be ASSIGNED or NEW before cancelled") 
     return {"Message":updated}

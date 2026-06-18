@@ -82,7 +82,7 @@ class MissionDB:
             if status_mission != "ASSIGNED":
                 raise MissionStatusError
         elif status == "COMPLETED" or status == "FAILED":
-            if status_mission != "IN_PROGRES":
+            if status_mission != "IN_PROGRESS":
                 raise MissionStatusError
         elif status == "CANCELLED": 
             if status_mission != "NEW" or "ASSIGNED":
